@@ -66,14 +66,14 @@ int main(void) {
 	OBJATTR mouse_attr =
 	{
 		((y & 0x00ff) | ATTR0_NORMAL | ATTR0_COLOR_256 | ATTR0_SQUARE),
-		((x & 0x00ff) | ATTR1_SIZE_32),
+		((x & 0x01ff) | ATTR1_SIZE_32),
 		0
 	};
 	
 	while (1)
 	{
 		mouse_attr.attr0 = ((y & 0x00ff) | ATTR0_NORMAL | ATTR0_COLOR_256 | ATTR0_SQUARE);
-		mouse_attr.attr1 = ((x & 0x00ff) | ATTR1_SIZE_32);
+		mouse_attr.attr1 = ((x & 0x01ff) | ATTR1_SIZE_32);
 		oam_copy(OAM, &mouse_attr, 1);
 		
 		// check keypad
