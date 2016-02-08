@@ -1,0 +1,5 @@
+# compiled
+*.gba
+*.elf
+*.o
+*.d
