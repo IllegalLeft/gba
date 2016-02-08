@@ -1,0 +1,1 @@
+<Project name="map"><MagicFolder excludeFolders="CVS;.svn" filter="*.h" name="include" path="include\"></MagicFolder><MagicFolder excludeFolders="CVS;.svn" filter="*.c;*.cpp; *.h" name="source" path="source\"><File path="map.c"></File><File path="mapped.c"></File><File path="tiles.c"></File></MagicFolder><File path="Makefile"></File></Project>
