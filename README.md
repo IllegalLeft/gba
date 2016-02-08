@@ -27,7 +27,7 @@ Simple sprite demo take #2
 sprites
 =======
 Simple sprite demo with 3 different sprites. Sprites ripped from Dragon Warrior
- for SNES. L/R to switch sprite. D-Pad to move.
+ for SNES. L/R to switch sprite. D-Pad to move. A to disable sprite.
 
 template
 ========

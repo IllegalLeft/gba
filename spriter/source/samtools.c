@@ -13,9 +13,10 @@
 void oam_init(OBJATTR *obj, uint count)
 {
 	u32 *dst = (u32*) obj;
+    int i;
 	
 	// Hide each object
-	for (int i = 0; i < count; i++)
+	for (i = 0; i < count; i++)
 	{
 		*dst++ = OBJ_DISABLE; //hidden by default
 		*dst++ = 0;
