@@ -3,3 +3,7 @@
 *.elf
 *.o
 *.d
+
+# Sam's misc. folders
+tools/*
+docs/*
