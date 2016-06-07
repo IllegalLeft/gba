@@ -5,6 +5,9 @@
 *.o
 *.d
 
+# etc
+trace.log
+
 # Sam's misc. folders
 tools/*
 docs/*
