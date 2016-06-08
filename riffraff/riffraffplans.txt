@@ -1,0 +1,30 @@
+GBA Music Gen
+-------------
+
+1 // Intro Screen
+2 // Main Menu
+  //  // Play
+  //  // Options
+  //  // Custom Trax
+3 // Options
+  //  // (sound settings like mono if gba has it)
+  //  // clear saved data
+  //  // (player settings) -- Noise/Sample->P1/2?
+4 // In-Game Menu
+  //  // Switch special channels
+  //  // Switch trax
+
+
+Controls
+--------
+Player 1
+    Arrows  //  Square Channel
+    Start   //  Direct Sound Channel
+    R       //  Special Channel (Noise/Sample)
+
+    Select  //  Menu
+
+Player 2
+    A       //  Square Channel
+    B       //  Direct Sound Channel
+    L       //  Special Channel (Noise/Sample)
