@@ -1,41 +1,25 @@
 #include <gba.h>
 
+#include "notes.h"
+
+
 #define SONG_BPM    130
 #define SONG_LEN    32
 #define STEPS       8 // 8 steps per beat
-#define SONG_TIMER  -(((SONG_BPM/STEPS)/60)/0.00006104)
-
-#define PAUSE       0
-#define NOTE_C      8013
-#define NOTE_Cs     7566
-#define NOTE_Db     NOTE_Cs
-#define NOTE_D      7144
-#define NOTE_Ds     6742
-#define NOTE_Eb     NOTE_Ds
-#define NOTE_E      6362
-#define NOTE_F      6005
-#define NOTE_Fs     5666
-#define NOTE_Gb     NOTE_Fs
-#define NOTE_G      5346
-#define NOTE_Gs     5048
-#define NOTE_Ab     NOTE_Gs
-#define NOTE_A      4766
-#define NOTE_As     4499
-#define NOTE_Bb     NOTE_As
-#define NOTE_B      4246
+#define SONG_TIMER  (u16)(-(SONG_BPM*8/60*16384))
 
 
 u16 trax[SONG_LEN] = {
-    (NOTE_C>>(4+0)),0,0,0, 0,0,0,(NOTE_A>>4),
-    0,NOTE_A,NOTE_C,0, 0,0,NOTE_B,0,
-    NOTE_A,0,NOTE_A,0, 0,0,0,NOTE_A,
-    0,NOTE_A,NOTE_E,NOTE_G, 0,0,NOTE_Gs,0
+    C3,0,0,0, 0,0,0,A2,
+    0,A2,C3,0, 0,0,B2,0,
+    A2,0,A3,0, 0,0,0,A2,
+    0,A2,E2,G2, 0,0,GS2,0
 };
 u8 songindex = 0;
 u8 aChan = 0;
 
 void nextnote() {
-    if ((aChan) && (trax[songindex])) {
+    if (trax[songindex]) {//((aChan) && (trax[songindex])) {
         SQR1CTRL = SQR_VOL(0xF) | (0 << 8) | SQR_DUTY(2) | 1;
         SQR1FREQ = (1 << 0xF) | trax[songindex];
         MODE3_FB[1][songindex] = RGB5(0, 0xff, 0);
@@ -74,7 +58,7 @@ int main(void) {
     SQR1FREQ = 0;
 
     // Timer 2
-    REG_TM2CNT_L = -0x1155;//SONG_TIMER;
+    REG_TM2CNT_L = -0x0800;//SONG_TIMER;
     REG_TM2CNT_H = TIMER_START | TIMER_IRQ | 3;
 
     // keys repeat
