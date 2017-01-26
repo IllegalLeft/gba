@@ -2,6 +2,7 @@
 */build/
 *.gba
 *.elf
+*.sav
 *.o
 *.d
 
