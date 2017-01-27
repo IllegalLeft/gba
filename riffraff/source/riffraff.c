@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include <gba.h>
 
 #include "tools.h"
@@ -23,9 +25,9 @@ u16 keys = 0;
 
 u8 songindex = 0;
 
-u8 Sqr1Play = 0;
-u8 Sqr2Play = 0;
-u8 NoisePlay = 0;
+bool Sqr1Play = 0;
+bool Sqr2Play = 0;
+bool NoisePlay = 0;
 
 u16 *Sqr1Track;
 u16 *Sqr2Track;
@@ -80,6 +82,7 @@ void nextnote() {
 void gameLoop() {
 	REG_DISPCNT = MODE_0 | BG2_ON | OBJ_ON | OBJ_1D_MAP;
 	
+    // load sprites for playing and show them
 	memcpy(SPRITE_GFX, drumkitTiles, drumkitTilesLen);
 	obj_buffer[0].attr0 = ATTR0_SQUARE | ATTR0_NORMAL | ATTR0_COLOR_16 | OBJ_Y(50);
 	obj_buffer[0].attr1 = ATTR1_SIZE_64 | OBJ_X(50);
@@ -119,9 +122,9 @@ void gameLoop() {
 // Main
 int main(void) {
 	
-	Sqr1Track = &track_berniebass1c;
-	Sqr2Track = &track_pianolead2;
-	NoiseTrack = &track_4floorkick;
+	Sqr1Track = (u16*) &track_berniebass1c;
+	Sqr2Track = (u16*) &track_pianolead2;
+	NoiseTrack = (u16*) &track_4floorkick;
 
     // Interrupts
     irqInit();
