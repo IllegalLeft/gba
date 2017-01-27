@@ -16,13 +16,13 @@
 #define __BACKGROUND__
 
 #define backgroundPalLen 32
-//extern const unsigned short backgroundPal[16];
+extern const unsigned short backgroundPal[16];
 
 #define backgroundTilesLen 2848
-//extern const unsigned short backgroundTiles[1424];
+extern const unsigned short backgroundTiles[1424];
 
 #define backgroundMapLen 256
-//extern const unsigned short backgroundMap[128];
+extern const unsigned short backgroundMap[128];
 
 #endif // __BACKGROUND__
 

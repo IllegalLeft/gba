@@ -6,8 +6,7 @@
 
 #include "tools.h"
 #include "logo.h"
-#include "ackground.h"
-
+#include "background.h"
 
 
 OBJATTR obj_buffer[128];
@@ -21,12 +20,11 @@ int main(void) {
 
 	// load palettes
 	memcpy(SPRITE_PALETTE, logoPal, logoPalLen);
-	//memcpy(BG_PALETTE, backgroundPal, backgroundPalLen);
+	memcpy(BG_PALETTE, backgroundPal, backgroundPalLen);
 	
-	// load sprite tiles
+	// load tiles
 	memcpy(SPRITE_GFX, logoTiles, logoTilesLen);
-	// load map tiles
-	//memcpy(, backgroundTiles, backgroundTilesLen);
+	memcpy(SPRITE_GFX+logoTilesLen, backgroundTiles, backgroundTilesLen);
 	
 	u16 logo_x = (SCREEN_WIDTH/2) - 64;
 	u16 logo_y = (SCREEN_HEIGHT/2) - 64;
