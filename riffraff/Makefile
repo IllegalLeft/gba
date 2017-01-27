@@ -20,8 +20,8 @@ TARGET		:=	$(shell basename $(CURDIR))_mb
 BUILD		:=	build
 SOURCES		:=	source
 DATA		:=
-GRAPHICS	:=	gfx	
-INCLUDES	:=
+GRAPHICS	:=	gfx
+INCLUDES	:=  include
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -60,8 +60,9 @@ ifneq ($(BUILD),$(notdir $(CURDIR)))
 #---------------------------------------------------------------------------------
 
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
-export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
-			$(foreach dir,$(DATA),$(CURDIR)/$(dir))
+export VPATH	:=	$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
+			$(foreach dir,$(GRAPHICS),$(CURDIR)/$(dir)) \
+			$(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
@@ -120,6 +121,8 @@ clean:
 #---------------------------------------------------------------------------------
 else
 
+.PRECIOUS: %.s
+
 DEPENDS	:=	$(OFILES:.o=.d)
 
 #---------------------------------------------------------------------------------
@@ -159,7 +162,12 @@ $(OUTPUT).elf	:	$(OFILES)
 #---------------------------------------------------------------------------------
 %.s %.h	: %.bmp %.grit
 #---------------------------------------------------------------------------------
-	grit $< -fts -o$*
+	grit $< -fts -fa -o$*
+
+#---------------------------------------------------------------------------------
+%.s %.h	: %.bmp
+#---------------------------------------------------------------------------------
+	grit $< -fts -ff $(<D)/$(notdir $(<D)).grit
 
 -include $(DEPENDS)
 

@@ -1,0 +1,7 @@
+#
+# Title.grit
+# 
+# Title screen
+
+-gb     # bitmapped output
+-gB16   # 4bpp
