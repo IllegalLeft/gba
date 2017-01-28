@@ -21,7 +21,7 @@ BUILD		:=	build
 SOURCES		:=	source
 DATA		:=
 GRAPHICS	:=	gfx	
-INCLUDES	:=
+INCLUDES	:=  include
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -60,8 +60,9 @@ ifneq ($(BUILD),$(notdir $(CURDIR)))
 #---------------------------------------------------------------------------------
 
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
-export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
-			$(foreach dir,$(DATA),$(CURDIR)/$(dir))
+export VPATH	:=	$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
+			$(foreach dir,$(GRAPHICS),$(CURDIR)/$(dir)) \
+			$(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
@@ -73,6 +74,7 @@ CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
 BMPFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.bmp)))
+PNGFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
 
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
@@ -90,6 +92,7 @@ endif
 
 export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
 					$(BMPFILES:.bmp=.o) \
+					$(PNGFILES:.png=.o) \
 					$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
 
 #---------------------------------------------------------------------------------
@@ -119,6 +122,8 @@ clean:
 
 #---------------------------------------------------------------------------------
 else
+
+.PRECIOUS: %.s
 
 DEPENDS	:=	$(OFILES:.o=.d)
 
@@ -157,9 +162,23 @@ $(OUTPUT).elf	:	$(OFILES)
 # add additional rules like this for each image extension
 # you use in the graphics folders 
 #---------------------------------------------------------------------------------
-%.s %.h	: %.bmp %.grit
+# BMP
 #---------------------------------------------------------------------------------
-	grit $< -fts -o$*
+%.s %.h	: %.bmp %.grit
+	grit $< -fts -fa -o$*
+
+%.s %.h	: %.bmp
+	grit $< -fts -ff $(<D)/$(notdir $(<D)).grit
+
+#---------------------------------------------------------------------------------
+# PNG
+#---------------------------------------------------------------------------------
+%.s %.h	: %.png %.grit
+	grit $< -fts -fa -o$*
+
+%.s %.h	: %.png
+	grit $< -fts -ff $(<D)/$(notdir $(<D)).grit
+
 
 -include $(DEPENDS)
 

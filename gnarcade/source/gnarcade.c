@@ -24,7 +24,10 @@ int main(void) {
 	
 	// load tiles
 	memcpy(SPRITE_GFX, logoTiles, logoTilesLen);
-	memcpy(SPRITE_GFX+logoTilesLen, backgroundTiles, backgroundTilesLen);
+	memcpy(TILE_BASE_ADR(0), backgroundTiles, backgroundTilesLen);
+
+    // load map
+    memcpy(MAP_BASE_ADR(3), backgroundMap, backgroundMapLen);
 	
 	u16 logo_x = (SCREEN_WIDTH/2) - 64;
 	u16 logo_y = (SCREEN_HEIGHT/2) - 64;
@@ -49,6 +52,18 @@ int main(void) {
 	
 	// set up screen
 	REG_DISPCNT = MODE_0 | OBJ_ON | OBJ_1D_MAP | BG2_ON;
+
+    // set up bg2
+    REG_BG2CNT = BG_TILE_BASE(0) | BG_MAP_BASE(3) | BG_SIZE(0) | BG_WRAP;
+    s32 bg2_x, bg2_y;
+    bg2_x = 0;
+    bg2_y = 0;
+    REG_BG2VOFS = bg2_x;
+    REG_BG2HOFS = bg2_y;
+    REG_BG2PA = 1;
+    REG_BG2PB = 0;
+    REG_BG2PC = 0;
+    REG_BG2PD = 1;
 	
 	// sweep in
 	for (int i = 0x07ff; i > 0x07f; i -= 15) {
@@ -63,6 +78,7 @@ int main(void) {
 		obj_aff_buffer[0].pd = ad;
 		
 		oam_copy(OAM, obj_buffer, 4);
+
 		VBlankIntrWait();
 	}
 
@@ -75,8 +91,13 @@ int main(void) {
 	u16 rot = 10; // 0 - 40
 	u16 bnc = 25; // 0 - 100
 	while (1) {
+        bg2_x++;
+        bg2_y++;
+        REG_BG2HOFS = bg2_x;
+        REG_BG2VOFS = bg2_y;
 
-		//rotation
+
+		//logo rotation
 		if (rot >= 20) {
 			aa -= 0;
 			ab += 1;
@@ -93,7 +114,7 @@ int main(void) {
 		if (rot == 40)
 			rot = 0;
 			
-		// bounce
+		//logo bounce
 		if (bnc > 50) {
 			logo_y++;
 		}
@@ -113,7 +134,7 @@ int main(void) {
 		obj_aff_buffer[0].pd = ad;
 		
 		oam_copy(OAM, obj_buffer, 4);
-	
+        
 		VBlankIntrWait();
 	}
 }
