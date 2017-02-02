@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 #include <gba_sprites.h>
+#include <gba_types.h>
 
 
 // oam_copy
