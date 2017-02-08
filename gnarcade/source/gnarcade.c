@@ -24,6 +24,7 @@ static inline s32 lu_sin(u32 theta)
 static inline s32 lu_cos(u32 theta)
 {   return sin_lut[((theta>>7)+128)&0x1FF]; }
 
+
 int main(void) {
 
 	// init OAM
@@ -38,7 +39,7 @@ int main(void) {
 	memcpy(TILE_BASE_ADR(0), backgroundTiles, backgroundTilesLen);
 
     // load map
-    memcpy(MAP_BASE_ADR(4), backgroundMap, backgroundMapLen);
+    memcpy(MAP_BASE_ADR(6), backgroundMap, backgroundMapLen);
 	
 	u16 logo_x = (SCREEN_WIDTH/2) - 64;
 	u16 logo_y = (SCREEN_HEIGHT/2) - 64;
@@ -65,7 +66,7 @@ int main(void) {
 	REG_DISPCNT = MODE_0 | OBJ_ON | OBJ_1D_MAP | BG2_ON;
 
     // set up bg2
-    REG_BG2CNT = BG_TILE_BASE(0) | BG_MAP_BASE(4) | BG_SIZE(0) | BG_WRAP;
+    REG_BG2CNT = BG_TILE_BASE(0) | BG_MAP_BASE(6) | BG_SIZE(0) | BG_WRAP;
     s32 bg2_x, bg2_y, bgangle;
     bg2_x = 0;
     bg2_y = 0;
@@ -94,7 +95,7 @@ int main(void) {
         bg2_y = lu_cos(bgangle)/15;
         REG_BG2HOFS = bg2_x;
         REG_BG2VOFS = bg2_y;
-        bgangle += 100;
+        bgangle += 75;
 		
 		oam_copy(OAM, obj_buffer, 4);
 
@@ -114,19 +115,19 @@ int main(void) {
         bg2_y = lu_cos(bgangle)/15;
         REG_BG2HOFS = bg2_x;
         REG_BG2VOFS = bg2_y;
-        bgangle += 100;
+        bgangle += 75;
 
 		//logo rotation
 		if (rot >= 20) {
 			aa -= 0;
-			ab += 1;
-			ac -= 1;
+			ab += 2;
+			ac -= 2;
 			ad -= 0;
 		}
 		else {
 			aa += 0;
-			ab -= 1;
-			ac += 1;
+			ab -= 2;
+			ac += 2;
 			ad += 0;
 		}
 		rot++;
