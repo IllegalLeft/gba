@@ -1,0 +1,10 @@
+# no tile reduction
+-m
+-mR!
+
+# meta tiles 2x2 (16x16px)
+-Mw2
+-Mh2
+
+# 4bpp image
+-gB4
