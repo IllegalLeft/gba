@@ -71,7 +71,7 @@ int main(void) {
     hofs = player.x - (SCREEN_WIDTH/2) + 8;
 
     //test enemy?
-    creature[0].type = 7;
+    creature[0].type = TILE_C;
     creature[0].hp = 10;
     creature[0].x = 10;
     creature[0].y = 10;
@@ -129,13 +129,16 @@ int main(void) {
             player.y = dest.y;
         }
 
+        loadmap(map);
+
+        // a few VBlanks so that it seems to lag behind a little
+        VBlankIntrWait();
+        VBlankIntrWait();
+        VBlankIntrWait();
+
         // center screen on player's x/y
         vofs = player.y*16 - (SCREEN_HEIGHT/2) + 8;
         hofs = player.x*16 - (SCREEN_WIDTH/2) + 8;
-
-        loadmap(map);
-
-        VBlankIntrWait();
 
         REG_BG0HOFS = hofs;
         REG_BG0VOFS = vofs;

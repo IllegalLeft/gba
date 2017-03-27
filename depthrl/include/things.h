@@ -17,6 +17,8 @@ struct character {
     u8 speed;
     u8 turn;
     u8 level;
+    u8 floor;
+    u16 money;
 } player;
 
 // creatures list (other than player)
