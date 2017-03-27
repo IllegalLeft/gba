@@ -42,6 +42,8 @@ u8 generatemap(u16 map[MAP_WIDTH][MAP_HEIGHT]) {
             tilestodig--;
         }
     }
+    // up stairs
+    map[MAP_HEIGHT/2][MAP_WIDTH/2] = TILE_STAIRSUP;
 
     return 1;
 }

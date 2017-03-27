@@ -7,6 +7,7 @@
 #define MAP_BUFFER_WIDTH    MAP_BUFFER_HEIGHT
 
 // TILES
+// letters are next to eachother in order
 #define TILE_A      16
 #define TILE_B      TILE_A+1
 #define TILE_C      TILE_B+1
@@ -22,9 +23,22 @@
 #define TILE_M      TILE_L+1
 #define TILE_N      TILE_M+1
 #define TILE_O      TILE_N+1
+#define TILE_P      TILE_O+1
+#define TILE_Q      TILE_P+1
+#define TILE_R      TILE_Q+1
+#define TILE_S      TILE_R+1
+#define TILE_T      TILE_S+1
+#define TILE_U      TILE_T+1
+#define TILE_V      TILE_U+1
+#define TILE_W      TILE_V+1
+#define TILE_X      TILE_W+1
+#define TILE_Y      TILE_X+1
+#define TILE_Z      TILE_Y+1
 // dungeon features
 #define TILE_SPACE      15 // .
 #define TILE_WALL       3  // #
+#define TILE_STAIRSUP   TILE_Z+1 // <
+#define TILE_STAIRSDOWN TILE_Z+2 // >
 // items
 #define TILE_POTION     2  // !
 #define TILE_MONEY      4  // $

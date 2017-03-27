@@ -46,10 +46,6 @@ int main(void) {
         }
     }
 
-    // set up video registers
-    REG_DISPCNT = MODE_0 | BG0_ON;
-    REG_BG0CNT = TILE_BASE(TILEBASE) | MAP_BASE(MAPBASE) | BG_16_COLOR | BG_SIZE(3);
-
     // set key repeat
     setRepeat(1,1);
 
@@ -64,14 +60,19 @@ int main(void) {
             break;
     }
 
+    // set up video registers
+    REG_DISPCNT = MODE_0 | BG0_ON;
+    REG_BG0CNT = TILE_BASE(TILEBASE) | MAP_BASE(MAPBASE) | BG_16_COLOR | BG_SIZE(3);
+
+
     player.x = MAP_WIDTH / 2;
     player.y = MAP_HEIGHT / 2;
     // center screen on player's x/y
     vofs = player.y - (SCREEN_HEIGHT/2) + 8;
     hofs = player.x - (SCREEN_WIDTH/2) + 8;
 
-    //test enemy?
-    creature[0].type = TILE_C;
+    //test enemy
+    creature[0].type = TILE_Z;
     creature[0].hp = 10;
     creature[0].x = 10;
     creature[0].y = 10;
@@ -123,7 +124,7 @@ int main(void) {
         if (dest.y < 0) dest.y = 0;
         else if (dest.y >= MAP_HEIGHT) dest.y = MAP_HEIGHT - 1;
         // check if tile is passable
-        if (map[dest.y][dest.x] == TILE_SPACE) {
+        if (map[dest.y][dest.x] != TILE_WALL) {
             // move
             player.x = dest.x;
             player.y = dest.y;
