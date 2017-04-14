@@ -136,6 +136,9 @@ int main(void) {
         VBlankIntrWait();
         VBlankIntrWait();
         VBlankIntrWait();
+        VBlankIntrWait();
+        VBlankIntrWait();
+        VBlankIntrWait();
 
         // center screen on player's x/y
         vofs = player.y*16 - (SCREEN_HEIGHT/2) + 8;
