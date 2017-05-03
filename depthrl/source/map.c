@@ -1,10 +1,11 @@
 #include <string.h>
 
-#include <gba.h>
+//#include <gba.h>
+#include <tonc.h>
 
 #include <base.h>
 #include <map.h>
-#include <random.h>
+//#include <random.h>
 #include <things.h>
 
 u8 generatemap(u16 map[MAP_WIDTH][MAP_HEIGHT]) {
@@ -89,10 +90,14 @@ u8 loadmap(u16 map[MAP_WIDTH][MAP_HEIGHT]) {
     }
 
     // load into mapbase memory
-    memcpy(MAP_BASE_ADR(MAPBASE), map_buffer[0], sizeof(map_buffer[0]));
-    memcpy(MAP_BASE_ADR(MAPBASE)+sizeof(map_buffer[0]), map_buffer[1], sizeof(map_buffer[1]));
-    memcpy(MAP_BASE_ADR(MAPBASE)+sizeof(map_buffer[0])*2, map_buffer[2], sizeof(map_buffer[2]));
-    memcpy(MAP_BASE_ADR(MAPBASE)+sizeof(map_buffer[0])*3, map_buffer[3], sizeof(map_buffer[3]));
+    //memcpy(MAP_BASE_ADR(MAPBASE), map_buffer[0], sizeof(map_buffer[0]));
+    //memcpy(MAP_BASE_ADR(MAPBASE)+sizeof(map_buffer[0]), map_buffer[1], sizeof(map_buffer[1]));
+    //memcpy(MAP_BASE_ADR(MAPBASE)+sizeof(map_buffer[0])*2, map_buffer[2], sizeof(map_buffer[2]));
+    //memcpy(MAP_BASE_ADR(MAPBASE)+sizeof(map_buffer[0])*3, map_buffer[3], sizeof(map_buffer[3]));
+    memcpy(se_mem[MAPBASE], map_buffer[0], sizeof(map_buffer[0]));
+    memcpy(se_mem[MAPBASE+1], map_buffer[1], sizeof(map_buffer[1]));
+    memcpy(se_mem[MAPBASE+2], map_buffer[2], sizeof(map_buffer[2]));
+    memcpy(se_mem[MAPBASE+3], map_buffer[3], sizeof(map_buffer[3]));
 
     return 0;
 }

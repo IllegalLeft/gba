@@ -2,12 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gba.h>
+//#include <gba.h>
+#include <tonc.h>
 
 #include "base.h"
-#include "tools.h"
+//#include "tools.h"
 #include "map.h"
-#include "random.h"
+//#include "random.h"
 #include "things.h"
 // images
 #include "tiles.h"
@@ -31,12 +32,12 @@ int main(void) {
 
 
     // load palette
-    memcpy(BG_PALETTE, tilesPal, tilesPalLen);
+    memcpy(pal_bg_mem, tilesPal, tilesPalLen);
     // load tiles
-    memcpy(TILE_BASE_ADR(TILEBASE), tilesTiles, tilesTilesLen);
+    memcpy(se_mem[TILEBASE], tilesTiles, tilesTilesLen);
 
-    irqInit();
-    irqEnable(IRQ_VBLANK);
+    irq_init(NULL);
+    irq_add(II_VBLANK, NULL);
 
     // set up map and buffer
     // setup map
@@ -47,29 +48,46 @@ int main(void) {
     }
 
     // set key repeat
-    setRepeat(1,1);
+    key_repeat_limits(1,1);
+
+    REG_DISPCNT = DCNT_MODE0 | DCNT_BG1;
+    // text
+    tte_init_se(1, BG_CBB(2) | BG_SBB(31), 0x0000, CLR_RED, 14, &fwf_default, NULL);
+    // text box
+    //se_rect(&se_mem[31], 0, 0, 30, 3, 2);
+    //se_fill(&se_mem[31],2);
+    //se_plot(&se_mem[31],0,0,3);
+    //se_window(&se_mem[31], 0, 0, 30, 3, 3);
 
     // set random seed somewhat randomly with a key press that will not be the
     // same everytime
+    tte_write("Press any key . . .");
     while (1) {
         sqran(qran());
 
-        scanKeys();
-        keys = keysDown();
+        key_poll();
+        keys = key_curr_state();
         if (keys)
             break;
     }
+    tte_write("#{es}");
 
     // set up video registers
-    REG_DISPCNT = MODE_0 | BG0_ON;
-    REG_BG0CNT = TILE_BASE(TILEBASE) | MAP_BASE(MAPBASE) | BG_16_COLOR | BG_SIZE(3);
+    REG_DISPCNT = DCNT_MODE0 | DCNT_BG0 | DCNT_BG1;// | DCNT_WIN0;
+    REG_BG0CNT = BG_CBB(TILEBASE) | BG_SBB(MAPBASE) | BG_4BPP | BG_SIZE3 | BG_PRIO(1);
+    //REG_BG1CNT = BG_PRIO(0);
 
+    /*
+    REG_WININ = WIN_BG0;
+    REG_WIN0H = 0 << 8 | 240;
+    REG_WIN0V = 16 << 8 | 160;
+    */
 
     player.x = MAP_WIDTH / 2;
     player.y = MAP_HEIGHT / 2;
     // center screen on player's x/y
-    vofs = player.y - (SCREEN_HEIGHT/2) + 8;
-    hofs = player.x - (SCREEN_WIDTH/2) + 8;
+    //vofs = player.y - (SCREEN_HEIGHT/2) + 8;
+    //hofs = player.x - (SCREEN_WIDTH/2) + 8;
 
     //test enemy
     creature[0].type = TILE_Z;
@@ -103,8 +121,10 @@ int main(void) {
         //}
         // Waiting for player's turn loop
         while (1) {
-            scanKeys();
-            keys = keysDown();
+            //scanKeys();
+            key_poll();
+            //keys = keysDown();
+            keys = key_hit(KEY_FULL);
 
             // movement
             if (keys & KEY_UP)
@@ -115,7 +135,7 @@ int main(void) {
                 dest.x--;
             if (keys & KEY_RIGHT)
                 dest.x++;
-            if (keys & DPAD)
+            if (keys & KEY_DIR)
                 break;
         }
         // restrict x/y
@@ -146,7 +166,6 @@ int main(void) {
 
         REG_BG0HOFS = hofs;
         REG_BG0VOFS = vofs;
-
     }
 }
 
